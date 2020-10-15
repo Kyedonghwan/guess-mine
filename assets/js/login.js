@@ -1,6 +1,5 @@
-//import initSockets from "./sockets";
-import { handleNewUser , handleDisconnected} from "./notifications";
-import {handleNewMessage} from "./chat";
+import {initSockets} from "./socket";
+
 
 const body=document.querySelector("body");
 const loginForm = document.getElementById("jsLogin");
@@ -11,14 +10,13 @@ const LOGGED_IN = "loggedIn";
 
 const nickname = localStorage.getItem(NICKNAME);
 
+let socket = "";
+
 const logIn = (nickname) => {
-    const { events } = window;
     window.socket = io("/");
-    window.socket.emit(window.events.setNickname,{nickname});
-    
-    window.socket.on(events.newUser, handleNewUser);
-    window.socket.on(events.disconnected, handleDisconnected);
-    window.socket.on(events.newMsg, handleNewMessage);
+    socket = window.socket;
+    socket.emit(window.events.setNickname,{nickname});
+    initSockets(socket);
 }
 
 
