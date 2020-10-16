@@ -1,6 +1,7 @@
 import { getSocket } from "./socket";
 
 const canvas = document.getElementById("jsCanvas");
+const controls = document.getElementById("jsControls");
 const ctx = canvas.getContext("2d");
 const colors = document.getElementsByClassName("jsColor");
 const range = document.getElementById("jsRange");
@@ -107,14 +108,6 @@ function handleSaveClick(){
     link.download = "PaintJS - Kyedonghwan";// a링크에 하이퍼링크 생성 download의 경우 이름생성
     link.click(); //클릭해줌 자동으로
 }
-if(canvas){
-    canvas.addEventListener("mousemove",onMouseMove);
-    canvas.addEventListener("mousedown",startPainting);
-    canvas.addEventListener("mouseup",stopPainting);
-    canvas.addEventListener("mouseleave",stopPainting);
-    canvas.addEventListener("click",handleCanvasClick);
-    canvas.addEventListener("contextmenu", handleCM);
-}
 
 Array.from(colors).forEach(color => color.addEventListener("click",handleColorClick));
 //Array 내 원소들중 하나씩을 color로 설정, 그 color에 대하여 addEventListener 실행
@@ -134,3 +127,36 @@ if(save){
 export const handleBeganPath = ({x,y}) => beginPath(x,y);
 export const handleStrokedPath = ({x,y,color}) => strokePath(x,y,color);
 export const handleFilled = ({color}) => fill(color);
+
+export const enableCanvas =() => {
+    canvas.addEventListener("mousemove",onMouseMove);
+    canvas.addEventListener("mousedown",startPainting);
+    canvas.addEventListener("mouseup",stopPainting);
+    canvas.addEventListener("mouseleave",stopPainting);
+    canvas.addEventListener("click",handleCanvasClick);
+}
+
+export const disableCanvas = () => {
+    canvas.removeEventListener("mousemove",onMouseMove);
+    canvas.removeEventListener("mousedown",startPainting);
+    canvas.removeEventListener("mouseup",stopPainting);
+    canvas.removeEventListener("mouseleave",stopPainting);
+    canvas.removeEventListener("click",handleCanvasClick);
+}
+
+export const hideControls = () => {
+    controls.style.opacity = 0;
+}
+
+export const showControls = () => {
+    controls.style.opacity = 1;
+}
+
+export const resetCanvas = () => {
+    fill('#fff');
+}
+
+if(canvas){
+    hideControls();
+    canvas.addEventListener("contextmenu", handleCM);
+}
