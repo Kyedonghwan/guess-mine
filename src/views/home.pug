@@ -27,9 +27,9 @@ html(lang="en")
                         .color.jsColor(style="background-color:rgb(88,86,214)")
             .chat
                 .player__board#jsPBoard
-                    ul.chat__messages#jsMessages
-                    form.chat__form#jsSendMsg
-                        input(placeholder="Wrtie a message", text="text")
+                ul.chat__messages#jsMessages
+                form.chat__form#jsSendMsg
+                    input(placeholder="Wrtie a message", text="text")
         script.
             window.events = !{events}
         script(src="/socket.io/socket.io.js")
