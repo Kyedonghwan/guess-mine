@@ -27,9 +27,9 @@ const socketController = (socket,io) => {
             //특정 socket id 를 가진 leader를 찾아 통신하고 싶을때 io.to(누구).
             superBroadcast(events.gameStarting);
             setTimeout(()=>{
+                timeout = setTimeout(endGame, 30000);
                 superBroadcast(events.gameStarted);
                 io.to(leader.id).emit(events.leaderNotif,{word});
-                timeout = setTimeout(endGame, 30000);
                 //제한시간 30초 해놓고, timeout id 를 반환한다 이 id를 이용하여 다른함수에 사용가능.
             }, 5000);
             
@@ -48,7 +48,7 @@ const socketController = (socket,io) => {
     const endGame = () => {
         inProgress=false;
         superBroadcast(events.gameEnded);
-        setTimeout(()=>startGame(),2000);
+        setTimeout(()=>startGame(),5000);
         if(timeout !==null) clearTimeout(timeout);
     };
 

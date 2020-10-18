@@ -2,6 +2,7 @@ import {disableCanvas, enableCanvas,hideControls,resetCanvas,showControls} from 
 import {disableChat,enableChat} from "./chat";
 const board = document.getElementById("jsPBoard"); 
 const notifs = document.getElementById("jsNotifs");
+const timeNotif = document.getElementById("jsTimeNotif");
 
 const addPlayers = (players) => players.forEach(player => {
     board.innerHTML = "";
@@ -15,6 +16,11 @@ const setNotifs = (text) => {
     notifs.innerText = text;
 }
 
+const setTimeNotif = (text) => {
+    timeNotif.innerText = "";
+    timeNotif.innerText = text;
+}
+
 export const handlePlayerUpdate = ({sockets}) => addPlayers(sockets);
 
 
@@ -25,6 +31,22 @@ export const handleGameStarted= () => {
     //hide the canvas controls
     hideControls();
     enableChat();
+    let time=29;
+    const x=setInterval(()=>{
+        if(time>5)
+        setTimeNotif(String(time)+" seconds");
+        
+        else{
+            if(time>0){
+            timeNotif.style.color="red";
+            setTimeNotif("Hurry up!!"+String(time)+" seconds");}
+            else{
+                timeNotif.style.color="black";
+                timeNotif.innerText="";
+                clearInterval(x);}
+        }
+        time--;
+    },1000);//1초 있다가 시작함.
 }
 
 export const handleLeaderNotif = ({word}) => {
